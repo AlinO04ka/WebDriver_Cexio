@@ -15,7 +15,6 @@ public class CexioTest {
 
     @BeforeMethod
     public void initializeBrowser() {
-//        System.setProperty("webdriver.edge.driver", "C:\\msedgedriver.exe");
         driver = new ChromeDriver();
         cexioPage = new CexioPage(driver).openPage()
                 .clickSignInButton()
