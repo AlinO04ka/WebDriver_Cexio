@@ -7,12 +7,12 @@ import org.testng.annotations.Test;
 import page.CexioPage;
 
 
-public class CexioTests {
+public class CexioTest {
     private WebDriver driver;
     protected CexioPage cexioPage;
 
     @BeforeMethod
-    private void initializeBrowser() {
+    public void initializeBrowser() {
         System.setProperty("webdriver.edge.driver", "C:\\msedgedriver.exe");
         driver = new EdgeDriver();
         cexioPage = new CexioPage(driver);
@@ -25,7 +25,7 @@ public class CexioTests {
     }
 
     @Test
-    private void searchOpenOrders() {
+    public void searchOpenOrders() {
         int numPositionsBeforeSell = cexioPage.countNumberPositions();
         int numPositionsAfterSell = cexioPage.clickSellButton()
                 .clickSendOrderButton()
@@ -36,7 +36,7 @@ public class CexioTests {
     }
 
     @AfterMethod
-    private void closeBrowser() {
+    public void closeBrowser() {
         driver.quit();
         driver = null;
     }

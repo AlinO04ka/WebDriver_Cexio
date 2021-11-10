@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class CexioPage extends AbstractPage {
@@ -20,8 +21,6 @@ public class CexioPage extends AbstractPage {
     private final By buttonConfirm = By.xpath("//section[@class='popup popup-confirmation popup-confirmationMessage popup-modal popup-draggable popup-visible']//button[@class='button button-primary']");
     private final By locatorForNewPositions = By.xpath("//*[@id=\"main\"]/div/div/div[1]/div/div[1]/div[1]/div/div[1]/div/div[1]/div[3]/div/div[2]/div/div[2]/div[1]/div[3]/div[1]/div[1]/div/table/tbody/*");
 
-    private int numElements;
-
     public CexioPage openPage() {
         driver.get("https://broker.cex.io/");
         return this;
@@ -30,7 +29,7 @@ public class CexioPage extends AbstractPage {
     public CexioPage clickSignInButton() {
        // driver.findElement(buttonSignIn).click();
 
-        WebElement waitingButton = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.elementToBeClickable(buttonSignIn));
         waitingButton.click();
 
@@ -39,7 +38,7 @@ public class CexioPage extends AbstractPage {
    }
 
     public CexioPage inputLoginForSignIn(String login) {
-        WebElement waitingButton = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.presenceOfElementLocated(areaLogin));
 //        waitingButton.click();
         waitingButton.sendKeys(login);
@@ -57,10 +56,10 @@ public class CexioPage extends AbstractPage {
     }
 
     public CexioPage clickSellButton() {
-        WebElement frame = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement frame = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("tradingTerminalIframe")));
         driver.switchTo().frame(frame);
-        WebElement waitingButton = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.elementToBeClickable(buttonSell));
         waitingButton.click();
         driver.switchTo().defaultContent();
@@ -68,10 +67,10 @@ public class CexioPage extends AbstractPage {
     }
 
     public CexioPage clickSendOrderButton() {
-        WebElement frame = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement frame = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("tradingTerminalIframe")));
         driver.switchTo().frame(frame);
-        WebElement waitingButton = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.elementToBeClickable(buttonSendOrder));
         waitingButton.click();
         driver.switchTo().defaultContent();
@@ -79,10 +78,10 @@ public class CexioPage extends AbstractPage {
     }
 
     public CexioPage clickConfirmButton() {
-        WebElement frame = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement frame = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("tradingTerminalIframe")));
         driver.switchTo().frame(frame);
-        WebElement waitingButton = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.elementToBeClickable(buttonConfirm));
         waitingButton.click();
         driver.switchTo().defaultContent();
@@ -90,10 +89,10 @@ public class CexioPage extends AbstractPage {
     }
 
     public int countNumberPositions() {
-        WebElement frame = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        WebElement frame = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("tradingTerminalIframe")));
         driver.switchTo().frame(frame);
-        List<WebElement> containerForNewPositions = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+        List<WebElement> containerForNewPositions = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.presenceOfAllElementsLocatedBy(locatorForNewPositions));
         driver.switchTo().defaultContent();
         if (containerForNewPositions == null)
