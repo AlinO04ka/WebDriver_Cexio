@@ -57,7 +57,7 @@ public class CexioPage extends AbstractPage {
 
     public CexioPage clickSellButton() {
         WebElement frame = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.presenceOfElementLocated(By.id("tradingTerminalIframe")));
+                .until(ExpectedConditions.elementToBeClickable(By.id("tradingTerminalIframe")));
         driver.switchTo().frame(frame);
         WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.elementToBeClickable(buttonSell));
