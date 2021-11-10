@@ -55,6 +55,13 @@ public class CexioPage extends AbstractPage {
         return this;
     }
 
+    public CexioPage clickCloseVerificationBlock() {
+        WebElement buttonCloseVerification = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
+                .until(ExpectedConditions.presenceOfElementLocated(By.className("verification_close_block__SnG9d")));
+        buttonCloseVerification.click();
+        return this;
+    }
+
     public CexioPage clickSellButton() {
         WebElement frame = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(ExpectedConditions.elementToBeClickable(By.id("tradingTerminalIframe")));

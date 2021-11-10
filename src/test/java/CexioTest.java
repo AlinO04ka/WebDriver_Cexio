@@ -17,9 +17,7 @@ public class CexioTest {
     public void initializeBrowser() {
 //        System.setProperty("webdriver.edge.driver", "C:\\msedgedriver.exe");
         driver = new ChromeDriver();
-        cexioPage = new CexioPage(driver);
-
-        cexioPage.openPage()
+        cexioPage = new CexioPage(driver).openPage()
                 .clickSignInButton()
                 .inputLoginForSignIn("alinakhartanovichlo@gmail.com")
                 .inputPasswordForSignIn("12345678Admin")
@@ -28,7 +26,8 @@ public class CexioTest {
 
     @Test
     public void searchOpenOrders() {
-        int numPositionsBeforeSell = cexioPage.countNumberPositions();
+        int numPositionsBeforeSell = cexioPage.clickCloseVerificationBlock()
+                .countNumberPositions();
         int numPositionsAfterSell = cexioPage.clickSellButton()
                 .clickSendOrderButton()
                 .clickConfirmButton()
