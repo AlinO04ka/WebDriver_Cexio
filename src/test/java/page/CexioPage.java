@@ -1,9 +1,6 @@
 package page;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -97,23 +94,10 @@ public class CexioPage extends AbstractPage {
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("tradingTerminalIframe")));
         driver.switchTo().frame(frame);
         List<WebElement> containerForNewPositions = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .ignoring(TimeoutException.class)
                 .until(ExpectedConditions.presenceOfAllElementsLocatedBy(locatorForNewPositions));
         driver.switchTo().defaultContent();
         if (containerForNewPositions == null)
             return 0;
         return containerForNewPositions.size();
-    }
-
-    public boolean checkCreatedNewPositions() {
-        WebElement frame = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.presenceOfElementLocated(By.id("tradingTerminalIframe")));
-        driver.switchTo().frame(frame);
-        List<WebElement> containerForNewPositions = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .ignoring(TimeoutException.class)
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(locatorForNewPositions));
-        if (containerForNewPositions == null) return false;
-        System.out.println(containerForNewPositions.size());
-        return containerForNewPositions.size() > 0;
     }
 }
