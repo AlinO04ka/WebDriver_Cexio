@@ -1,7 +1,5 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -11,15 +9,19 @@ import page.CexioPage;
 
 public class CexioTest {
     private WebDriver driver;
-    protected CexioPage cexioPage;
+    private CexioPage cexioPage;
+
+    private final String login = "bzorssdyyqikibhxli@adfskj.com";
+    private final String password = "12345678Admin";
 
     @BeforeMethod
     public void initializeBrowser() {
         driver = new ChromeDriver();
+        driver.manage().window().maximize();
         cexioPage = new CexioPage(driver).openPage()
                 .clickSignInButton()
-                .inputLoginForSignIn("bzorssdyyqikibhxli@adfskj.com")
-                .inputPasswordForSignIn("12345678Admin")
+                .inputLoginForSignIn(login)
+                .inputPasswordForSignIn(password)
                 .clickSignInButtonInArea();
     }
 
