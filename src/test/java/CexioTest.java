@@ -18,15 +18,14 @@ public class CexioTest {
         driver = new ChromeDriver();
         cexioPage = new CexioPage(driver).openPage()
                 .clickSignInButton()
-                .inputLoginForSignIn("alinakhartanovichlo@gmail.com")
+                .inputLoginForSignIn("bzorssdyyqikibhxli@adfskj.com")
                 .inputPasswordForSignIn("12345678Admin")
                 .clickSignInButtonInArea();
     }
 
     @Test
     public void searchOpenOrders() {
-        int numPositionsBeforeSell = cexioPage.clickCloseVerificationBlock()
-                .countNumberPositions();
+        int numPositionsBeforeSell = cexioPage.countNumberPositions();
         int numPositionsAfterSell = cexioPage.clickSellButton()
                 .clickSendOrderButton()
                 .clickConfirmButton()
