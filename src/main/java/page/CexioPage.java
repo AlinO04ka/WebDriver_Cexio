@@ -20,8 +20,11 @@ public class CexioPage extends AbstractPage {
     private final By buttonSell = By.xpath("//div[@class='chartArea--toolbar']/button[@class='gwt-Button button button-sell']");
     private final By buttonSendOrder = By.xpath("//footer//button[@class='button button-primary button-button-bid']");
     private final By buttonConfirm = By.xpath("//section[@class='popup popup-confirmation popup-confirmationMessage popup-modal popup-draggable popup-visible']//button[@class='button button-primary']");
-    private final By locatorForNewPositions = By.xpath("//*[@id='main']/div/div/div[1]/div/div[1]/div[1]/div/div[1]/div/div[1]/div[3]/div/div[2]/div/div[2]/div[1]/div[3]/div[1]/div[1]/div/table/tbody/*");
+    private final By locatorForNewPositions = By.xpath("//tr[@class=' table--row position']");
     private final By frameTradingTerminal = By.id("tradingTerminalIframe");
+    private final By closePosition = By.xpath("//button[contains(@class, 'button-closePosition')]");
+    private final By buttonClosePosition = By.xpath("//section[@class='popup popup-position popup-trade popup-closing popup-sell popup-draggable popup-visible']//button[contains(@class, 'button button-primary')]");
+    private final By buttonConfirmClose = By.xpath("//section[@class='popup popup-confirmation popup-confirmationMessage popup-draggable popup-visible']//button[@class='button button-primary']");
 
     public CexioPage(WebDriver driver) {
         super(driver);
@@ -95,6 +98,15 @@ public class CexioPage extends AbstractPage {
         }
         ExitFrame();
         return numPositions;
+    }
+
+    public CexioPage deletePosition() {
+        EnterFrame(frameTradingTerminal);
+        driver.findElement(locatorForNewPositions).findElement(closePosition).click();
+        driver.findElement(buttonClosePosition).click();
+        driver.findElement(buttonConfirmClose).click();
+        ExitFrame();
+        return this;
     }
 
     private void EnterFrame(By frame) {

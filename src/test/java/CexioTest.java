@@ -32,6 +32,7 @@ public class CexioTest {
                 .clickSendOrderButton()
                 .clickConfirmButton()
                 .countNumberPositions();
+        cexioPage.deletePosition();
 
         Assert.assertTrue(numPositionsAfterSell - numPositionsBeforeSell > 0);
     }
