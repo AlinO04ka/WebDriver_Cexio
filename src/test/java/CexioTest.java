@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import page.CexioHome;
 import page.CexioPage;
 
 
@@ -18,27 +19,43 @@ public class CexioTest {
     public void initializeBrowser() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        cexioPage = new CexioPage(driver).openPage()
+        cexioPage = new CexioHome(driver).openPage()
                 .clickSignInButton()
                 .inputLoginForSignIn(login)
                 .inputPasswordForSignIn(password)
-                .clickSignInButtonInArea();
+                .clickSignInButtonInArea()
+                .clickButtonLiveAccount()
+                .clickButtonDemoAccount()
+                .clearFilters();
     }
 
     @Test
-    public void searchOpenOrders() {
+    public void testSearchOpenOrders() {
         int numPositionsBeforeSell = cexioPage.countNumberPositions();
         int numPositionsAfterSell = cexioPage.clickSellButton()
                 .clickSendOrderButton()
                 .clickConfirmButton()
                 .countNumberPositions();
-        cexioPage.deletePosition();
 
         Assert.assertTrue(numPositionsAfterSell - numPositionsBeforeSell > 0);
     }
 
-    @AfterMethod
+    @Test
+    public void testSearchPositionsFiltered() {
+        int numFilteredBoughtPositionsBeforeBought = cexioPage.clickFilterSideButton()
+                .clickBoughtSideButton()
+                .countNumberBoughtPositions();
+        int numFilteredBoughtPositionsAfterBought = cexioPage.clickBuyButton()
+                .clickSendOrderButton()
+                .clickConfirmButton()
+                .countNumberBoughtPositions();
+
+        Assert.assertEquals(numFilteredBoughtPositionsAfterBought - numFilteredBoughtPositionsBeforeBought, 1);
+    }
+
+    @AfterMethod(alwaysRun = true)
     public void closeBrowser() {
+        cexioPage.deletePosition();
         driver.quit();
         driver = null;
     }

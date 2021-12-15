@@ -1,9 +1,6 @@
 package page;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -11,83 +8,67 @@ import java.time.Duration;
 import java.util.List;
 
 public class CexioPage extends AbstractPage {
-    private final String siteUrl = "https://broker.cex.io/";
-
-    private final By buttonSignIn = By.xpath("//div[contains(@class, 'main-header_main_header')]/button[text()='Sign In']");
-    private final By areaLogin = By.xpath("//*[@id='email']");
-    private final By areaPassword = By.xpath("//*[@id='password']");
-    private final By buttonSignInInArea = By.xpath("//button[@class='cex-ui-button cex-ui-button-big cex-ui-button-primary-contained cex-ui-form-submit-btn']");
     private final By buttonSell = By.xpath("//div[@class='chartArea--toolbar']/button[@class='gwt-Button button button-sell']");
+    private final By buttonBuy = By.xpath("//button[@class='gwt-Button button button-buy']");
     private final By buttonSendOrder = By.xpath("//footer//button[@class='button button-primary button-button-bid']");
     private final By buttonConfirm = By.xpath("//section[@class='popup popup-confirmation popup-confirmationMessage popup-modal popup-draggable popup-visible']//button[@class='button button-primary']");
     private final By locatorForNewPositions = By.xpath("//tr[@class=' table--row position']");
     private final By frameTradingTerminal = By.id("tradingTerminalIframe");
     private final By closePosition = By.xpath("//button[contains(@class, 'button-closePosition')]");
-    private final By buttonClosePosition = By.xpath("//section[@class='popup popup-position popup-trade popup-closing popup-sell popup-draggable popup-visible']//button[contains(@class, 'button button-primary')]");
+    private final By buttonClosePosition = By.xpath("//button//span[text()='Close Position']");
     private final By buttonConfirmClose = By.xpath("//section[@class='popup popup-confirmation popup-confirmationMessage popup-draggable popup-visible']//button[@class='button button-primary']");
+    private final By buttonSide = By.xpath("//span[text()='Side' and not(ancestor::div[contains(@style,'display: none')])]");
+    private final By buttonFilterSide = By.xpath("//span[text()='Side' and not(ancestor::div[contains(@style,'display: none')])]/following-sibling::span");
+    private final By buttonBoughtSide = By.xpath("//li[@class='contextMenu--item contextMenu--item-multiSelectItem' and .='Bought']");
+    private final By locatorForBoughtPositions = By.xpath("//span[@class='position--quantity']");
+    private final By locatorForCreateConfirmMessage = By.xpath("//span[contains(@class, 'ToastHost-global__container')]/*");
+    private final By locatorForClearFilters = By.xpath("//span[@class='filterPanel--clear' and not(ancestor::div[contains(@style, 'display: none')])]/span");
+
 
     public CexioPage(WebDriver driver) {
         super(driver);
     }
 
-    public CexioPage openPage() {
-        driver.get(siteUrl);
-        return this;
-    }
-
-    public CexioPage clickSignInButton() {
-        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.elementToBeClickable(buttonSignIn));
-        waitingButton.click();
-        return this;
-    }
-
-    public CexioPage inputLoginForSignIn(String login) {
-        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.presenceOfElementLocated(areaLogin));
-        waitingButton.sendKeys(login);
-        return this;
-    }
-
-    public CexioPage inputPasswordForSignIn(String password) {
-        driver.findElement(areaPassword).sendKeys(password);
-        return this;
-    }
-
-    public CexioPage clickSignInButtonInArea() {
-        driver.findElement(buttonSignInInArea).click();
+    public CexioPage clearFilters() {
+        enterFrame(frameTradingTerminal);
+        try {
+            WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
+                    .until(ExpectedConditions.visibilityOfElementLocated(locatorForClearFilters));
+            waitingButton.click();
+        } catch (TimeoutException ignored) {
+        }
+        exitFrame();
         return this;
     }
 
     public CexioPage clickSellButton() {
-        EnterFrame(frameTradingTerminal);
-        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.elementToBeClickable(buttonSell));
+        enterFrame(frameTradingTerminal);
+        WebElement waitingButton = waitElementToBeClickable(buttonSell);
         waitingButton.click();
-        ExitFrame();
+        exitFrame();
         return this;
     }
 
     public CexioPage clickSendOrderButton() {
-        EnterFrame(frameTradingTerminal);
-        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.elementToBeClickable(buttonSendOrder));
+        enterFrame(frameTradingTerminal);
+        WebElement waitingButton = waitElementToBeClickable(buttonSendOrder);
         waitingButton.click();
-        ExitFrame();
+        exitFrame();
         return this;
     }
 
     public CexioPage clickConfirmButton() {
-        EnterFrame(frameTradingTerminal);
-        WebElement waitingButton = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.elementToBeClickable(buttonConfirm));
+        enterFrame(frameTradingTerminal);
+        WebElement waitingButton = waitElementToBeClickable(buttonConfirm);
         waitingButton.click();
-        ExitFrame();
+        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
+                .until(ExpectedConditions.visibilityOfElementLocated(locatorForCreateConfirmMessage));
+        exitFrame();
         return this;
     }
 
     public int countNumberPositions() {
-        EnterFrame(frameTradingTerminal);
+        enterFrame(frameTradingTerminal);
         int numPositions;
         try {
             List<WebElement> containerForNewPositions = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
@@ -96,25 +77,64 @@ public class CexioPage extends AbstractPage {
         } catch (TimeoutException timeoutException) {
             numPositions = 0;
         }
-        ExitFrame();
+        exitFrame();
         return numPositions;
     }
 
-    public CexioPage deletePosition() {
-        EnterFrame(frameTradingTerminal);
+    public void deletePosition() {
+        enterFrame(frameTradingTerminal);
         driver.findElement(locatorForNewPositions).findElement(closePosition).click();
-        driver.findElement(buttonClosePosition).click();
-        driver.findElement(buttonConfirmClose).click();
-        ExitFrame();
+        WebElement waitingButtonFirst = waitElementToBeClickable(buttonClosePosition);
+        waitingButtonFirst.click();
+        WebElement waitingButtonSecond = waitElementToBeClickable(buttonConfirmClose);
+        waitingButtonSecond.click();
+        exitFrame();
+    }
+
+    public CexioPage clickFilterSideButton() {
+        enterFrame(frameTradingTerminal);
+        WebElement waitingButton = waitElementToBeClickable(buttonFilterSide);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click()", waitingButton);
+        exitFrame();
         return this;
     }
 
-    private void EnterFrame(By frame) {
-        driver.switchTo().frame(new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .until(ExpectedConditions.presenceOfElementLocated(frame)));
+    public CexioPage clickBoughtSideButton() {
+        enterFrame(frameTradingTerminal);
+        driver.findElement(buttonBoughtSide).click();
+        driver.findElement(buttonSide).click();
+        exitFrame();
+        return this;
     }
 
-    private void ExitFrame() {
+    public int countNumberBoughtPositions() {
+        enterFrame(frameTradingTerminal);
+        int numBoughtPositions;
+        try {
+            List<WebElement> containerForNewBoughtPositions = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
+                    .until(ExpectedConditions.presenceOfAllElementsLocatedBy(locatorForBoughtPositions));
+            numBoughtPositions = containerForNewBoughtPositions.size();
+        } catch (TimeoutException e) {
+            numBoughtPositions = 0;
+        }
+        exitFrame();
+        return numBoughtPositions;
+    }
+
+    public CexioPage clickBuyButton() {
+        enterFrame(frameTradingTerminal);
+        WebElement waitingButton = waitElementToBeClickable(buttonBuy);
+        waitingButton.click();
+        exitFrame();
+        return this;
+    }
+
+    private void enterFrame(By frame) {
+        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
+                .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
+    }
+
+    private void exitFrame() {
         driver.switchTo().defaultContent();
     }
 }
