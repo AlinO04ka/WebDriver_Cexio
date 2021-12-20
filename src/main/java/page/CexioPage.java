@@ -16,7 +16,6 @@ public class CexioPage extends AbstractPage {
     private final By frameTradingTerminal = By.id("tradingTerminalIframe");
     private final By closePosition = By.xpath("//button[contains(@class, 'button-closePosition')]");
     private final By buttonClosePosition = By.xpath("//button//span[text()='Close Position']");
-    private final By buttonConfirmClose = By.xpath("//button[@class='button button-primary']");
     private final By buttonSide = By.xpath("//span[text()='Side' and not(ancestor::div[contains(@style,'display: none')])]");
     private final By buttonFilterSide = By.xpath("//span[text()='Side' and not(ancestor::div[contains(@style,'display: none')])]/following-sibling::span");
     private final By buttonBoughtSide = By.xpath("//li[@class='contextMenu--item contextMenu--item-multiSelectItem' and .='Bought']");
@@ -86,7 +85,7 @@ public class CexioPage extends AbstractPage {
         driver.findElement(locatorForNewPositions).findElement(closePosition).click();
         WebElement waitingButtonFirst = waitElementToBeClickable(buttonClosePosition);
         waitingButtonFirst.click();
-        WebElement waitingButtonSecond = waitElementToBeClickable(buttonConfirmClose);
+        WebElement waitingButtonSecond = waitElementToBeClickable(buttonConfirm);
         waitingButtonSecond.click();
         exitFrame();
     }
