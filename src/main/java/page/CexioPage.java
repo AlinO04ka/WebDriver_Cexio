@@ -8,15 +8,15 @@ import java.time.Duration;
 import java.util.List;
 
 public class CexioPage extends AbstractPage {
-    private final By buttonSell = By.xpath("//div[@class='chartArea--toolbar']/button[@class='gwt-Button button button-sell']");
+    private final By buttonSell = By.xpath("//button[@class='gwt-Button button button-sell']");
     private final By buttonBuy = By.xpath("//button[@class='gwt-Button button button-buy']");
-    private final By buttonSendOrder = By.xpath("//footer//button[@class='button button-primary button-button-bid']");
-    private final By buttonConfirm = By.xpath("//section[@class='popup popup-confirmation popup-confirmationMessage popup-modal popup-draggable popup-visible']//button[@class='button button-primary']");
+    private final By buttonSendOrder = By.xpath("//footer//button[contains(@class, 'button-button-bid')]");
+    private final By buttonConfirm = By.xpath("//button[@class='button button-primary']");
     private final By locatorForNewPositions = By.xpath("//tr[@class=' table--row position']");
     private final By frameTradingTerminal = By.id("tradingTerminalIframe");
     private final By closePosition = By.xpath("//button[contains(@class, 'button-closePosition')]");
     private final By buttonClosePosition = By.xpath("//button//span[text()='Close Position']");
-    private final By buttonConfirmClose = By.xpath("//section[@class='popup popup-confirmation popup-confirmationMessage popup-draggable popup-visible']//button[@class='button button-primary']");
+    private final By buttonConfirmClose = By.xpath("//button[@class='button button-primary']");
     private final By buttonSide = By.xpath("//span[text()='Side' and not(ancestor::div[contains(@style,'display: none')])]");
     private final By buttonFilterSide = By.xpath("//span[text()='Side' and not(ancestor::div[contains(@style,'display: none')])]/following-sibling::span");
     private final By buttonBoughtSide = By.xpath("//li[@class='contextMenu--item contextMenu--item-multiSelectItem' and .='Bought']");

@@ -11,7 +11,7 @@ import java.time.Duration;
 public class CexioLogin extends AbstractPage{
     private final By areaLogin = By.id("email");
     private final By areaPassword = By.id("password");
-    private final By buttonSignInInArea = By.xpath("//button[@class='cex-ui-button cex-ui-button-big cex-ui-button-primary-contained cex-ui-form-submit-btn']");
+    private final By buttonSignInInArea = By.id("login_start");
     private final By buttonLiveAccount = By.xpath("//div[@class='header-second_terminal_accounts_block__2qaBM']");
     private final By buttonDemoAccount = By.xpath("//div[text()='BTC_up144895566_4']");
 
